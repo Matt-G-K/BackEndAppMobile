@@ -36,7 +36,7 @@ public class UserController {
         return "Added user with username: "+username;
     }
 
-    @PostMapping("/api/rent/{id}/{username}")
+    @PutMapping("/api/rent/{id}/{username}")
     public String rentCarUser(@PathVariable int id, @PathVariable String username) {
         System.out.println("got request with id: "+id+" and username: "+username);
         for (User user: Users) {

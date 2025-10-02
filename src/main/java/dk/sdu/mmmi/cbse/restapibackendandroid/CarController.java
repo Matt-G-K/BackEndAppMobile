@@ -95,7 +95,7 @@ public class CarController {
         return availableCars;
     }
 
-    @PostMapping("/api/rent/{id}")
+    @PutMapping("/api/rent/{id}")
     public String rentCar(@PathVariable int id) {
         System.out.println("got request with id: "+id);
         for (Car car: Cars) {
@@ -105,7 +105,12 @@ public class CarController {
                     System.out.println("Trying to rent car");
                     car.setStatus("Rented");
                     return "Car with id: "+id+" is rented";
+                } else {
+                    System.out.println("Car not available");
+                    return "Car with id: "+id+" is not available";
                 }
+            } else {
+                System.out.println("Not car: "+car.getId());
             }
         }
         return "Error";
