@@ -105,13 +105,7 @@ public class CarController {
                     System.out.println("Trying to rent car");
                     car.setStatus("Rented");
                     return "Car with id: "+id+" is rented";
-                } else {
-                    System.out.println("Car not available");
-                    return "Car with id: "+id+" is not available";
                 }
-            } else {
-                System.out.println("Car not found");
-                return "Car with id: "+id+" cannot be found";
             }
         }
         return "Error";
