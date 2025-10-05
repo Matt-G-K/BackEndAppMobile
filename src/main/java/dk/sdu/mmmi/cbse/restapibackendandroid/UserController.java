@@ -27,11 +27,11 @@ public class UserController {
         return new ArrayList<String>();
     }
 
-    @PostMapping("/api/users/create/{username}/{email}/{password}")
-    public String createUser(@PathVariable String username, @PathVariable String email, @PathVariable String password) {
+    @PostMapping("/api/users/create/{username}/{email}/{password}/{number}")
+    public String createUser(@PathVariable String username, @PathVariable String email, @PathVariable String password, @PathVariable String number) {
         System.out.println("Creating user");
         ArrayList<String> emptyHistory = new ArrayList<>();
-        User newUser = new User(username, email, password, emptyHistory);
+        User newUser = new User(username, email, password, number, emptyHistory);
         Users.add(newUser);
         return "Added user with username: "+username;
     }

@@ -6,12 +6,15 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private String number;
+    private String image;
     private ArrayList<String> carsRented;
 
-    public User(String username, String email, String password, ArrayList<String> carsRented){
+    public User(String username, String email, String password, String number, ArrayList<String> carsRented){
         this.username = username;
         this.email = email;
         this.password = password;
+        this.number = number;
         this.carsRented = carsRented;
     }
 
@@ -38,6 +41,15 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
 
     public ArrayList<String> getCarsRented() {
         return carsRented;
