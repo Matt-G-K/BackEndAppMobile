@@ -6,13 +6,15 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private ArrayList<String> carsRented;
+    private ArrayList<Integer> groupsMember;
+    private ArrayList<Integer> transactionsMember;
 
-    public User(String username, String email, String password, ArrayList<String> carsRented){
+    public User(String username, String email, String password, ArrayList<Integer> groupsMember, ArrayList<Integer> transactionsMember){
         this.username = username;
         this.email = email;
         this.password = password;
-        this.carsRented = carsRented;
+        this.groupsMember = groupsMember;
+        this.transactionsMember = transactionsMember;
     }
 
     public String getUsername() {
@@ -39,11 +41,19 @@ public class User {
         this.password = password;
     }
 
-    public ArrayList<String> getCarsRented() {
-        return carsRented;
+    public ArrayList<Integer> getGroupsMember() {
+        return groupsMember;
     }
 
-    public void addCarsRented(String id) {
-        carsRented.add(id);
+    public void addGroupMember(int id) {
+        groupsMember.add(id);
+    }
+
+    public ArrayList<Integer> getTransactionsMember() {
+        return transactionsMember;
+    }
+
+    public void addTransactionMember(int id) {
+        transactionsMember.add(id);
     }
 }
