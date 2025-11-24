@@ -12,11 +12,11 @@ public class GroupController {
     private ArrayList<Integer> emptyArray = new ArrayList<>();
     private ArrayList<String> emptyArrayString = new ArrayList<>();
 
-    private List<Group> Groups = Arrays.asList(
-            new Group(1, "a", emptyArrayString, emptyArray, "01-01-2020"),
-            new Group(2, "b", emptyArrayString, emptyArray, "02-01-2020"),
-            new Group(3, "c", emptyArrayString, emptyArray, "03-01-2020")
-    );
+    private List<Group> Groups = new ArrayList<>(Arrays.asList(
+            new Group(1, "Event1", emptyArrayString, emptyArray, "01-01-2020"),
+            new Group(2, "Event2", emptyArrayString, emptyArray, "02-01-2020"),
+            new Group(3, "Event3", emptyArrayString, emptyArray, "03-01-2020")
+    ));
 
     @GetMapping("/api/groups")
     public List<Group> getGroups() {
@@ -70,12 +70,15 @@ public class GroupController {
     }
 
     @PostMapping("api/creategroup/{name}")
-    public String createGroup(@PathVariable String name) {
+    public Group createGroup(@PathVariable String name) {
         System.out.println("Trying to create group with name: "+name);
         int ID = Groups.getLast().getId()+1;
         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-        new Group(ID, name, emptyArrayString, emptyArray, date);
-        return "Group created with id: "+ID;
+         ArrayList<Integer> emptyArray2 = new ArrayList<>();
+         ArrayList<String> emptyArrayString2 = new ArrayList<>();
+        Group group = new Group(ID, name, emptyArrayString2, emptyArray2, date);
+        Groups.add(group);
+        return group;
     }
 
     @GetMapping("/api/group/{id}")

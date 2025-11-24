@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "919791998288",
+    "project_id": "splitwiz-51e10",
+    "storage_bucket": "splitwiz-51e10.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919791998288:android:0570ab5e612a24666cc855",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU7_tW1sHkB6ywg_Q12XlbhBCcMQSrVM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
