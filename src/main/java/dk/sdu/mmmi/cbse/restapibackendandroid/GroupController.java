@@ -77,4 +77,15 @@ public class GroupController {
         new Group(ID, name, emptyArrayString, emptyArray, date);
         return "Group created with id: "+ID;
     }
+
+
+    // Helper method to get group name by ID
+    public String getGroupNameById(int id) {
+        for (Group group : Groups) {
+            if (group.getId().equals(id)) {
+                return group.getName();
+            }
+        }
+        return null;
+    }
 }

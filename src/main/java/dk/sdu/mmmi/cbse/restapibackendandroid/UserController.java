@@ -2,6 +2,12 @@ package dk.sdu.mmmi.cbse.restapibackendandroid;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.google.api.services.storage.model.Notification;
+
+import dk.sdu.mmmi.cbse.service.DeviceTokenService;
+import dk.sdu.mmmi.cbse.service.FcmService;
+import dk.sdu.mmmi.cbse.service.NotificationService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +17,17 @@ import java.util.Objects;
 public class UserController {
 
     private List<User> Users = new ArrayList<>();
+    private NotificationService notificationService;
+    private GroupController groupController;
+    private final DeviceTokenService deviceTokenService;
+    private final FcmService fcmService;
+
+    public UserController(NotificationService notificationService, GroupController groupController, DeviceTokenService deviceTokenService, FcmService fcmService) {
+        this.notificationService = notificationService;
+        this.groupController = groupController;
+        this.deviceTokenService = deviceTokenService;
+        this.fcmService = fcmService;
+    }
 
     @GetMapping("/api/users")
     public List<User> getUsers() {
@@ -39,11 +56,26 @@ public class UserController {
     @PutMapping("/api/user/addgroup/{id}/{username}")
     public String addGroup(@PathVariable int id, @PathVariable String username) {
         System.out.println("got request with id: "+id+" and username: "+username);
+
+        // Temp solution to get group name
+        String groupName = groupController.getGroupNameById(id);
+        
+
         for (User user: Users) {
             System.out.println("Scanning users");
             if (Objects.equals(user.getUsername(), username) && !user.getGroupsMember().contains(id)) {
                 user.addGroupMember(id);
-                return "Added group with id: "+id+" to user: "+username+" list of rented cars";
+                // Trigger notification for the added user
+                var tokens = deviceTokenService.getTokensUser(user.getUserId());
+                for(String dt: tokens){
+                    System.out.println("Checking device token: " + dt);
+                    fcmService.sendPushNotification(
+                            dt,
+                            "Added to Group",
+                            "You have been added to the group: " + groupName
+                    );
+                }
+                return "Added group with id: "+id+" to user: "+username+" to group " + groupName;
             } else if (Objects.equals(user.getUsername(), username) && user.getGroupsMember().contains(id)) {
                 System.out.println("Group already associated to user");
                 return "Group: "+id+" already associated to user: "+username;
@@ -67,4 +99,17 @@ public class UserController {
         }
         return "Error";
     }
+
+    @PutMapping("/api/user/setuserid/{username}/{userId}")
+    public String setUserId(@PathVariable String username, @PathVariable String userId) {
+        for (User user: Users) {
+            if (Objects.equals(user.getUsername(), username)) {
+                user.setUserId(userId);
+                return "Set userId: "+userId+" for user: "+username;
+            }
+        }
+        return "Error";
+    }
+
 }
+
