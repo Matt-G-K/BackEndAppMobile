@@ -2,11 +2,8 @@ package dk.sdu.mmmi.cbse.restapibackendandroid;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.google.api.services.storage.model.Notification;
-
 import dk.sdu.mmmi.cbse.service.DeviceTokenService;
 import dk.sdu.mmmi.cbse.service.FcmService;
-import dk.sdu.mmmi.cbse.service.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +14,11 @@ import java.util.Objects;
 public class UserController {
 
     private List<User> Users = new ArrayList<>();
-    private NotificationService notificationService;
     private GroupController groupController;
     private final DeviceTokenService deviceTokenService;
     private final FcmService fcmService;
 
-    public UserController(NotificationService notificationService, GroupController groupController, DeviceTokenService deviceTokenService, FcmService fcmService) {
-        this.notificationService = notificationService;
+    public UserController(GroupController groupController, DeviceTokenService deviceTokenService, FcmService fcmService) {
         this.groupController = groupController;
         this.deviceTokenService = deviceTokenService;
         this.fcmService = fcmService;
