@@ -77,4 +77,18 @@ public class GroupController {
         new Group(ID, name, emptyArrayString, emptyArray, date);
         return "Group created with id: "+ID;
     }
+
+    @GetMapping("/api/group/{id}")
+    public String getGroup(@PathVariable String id) {
+        System.out.println("Fetching group with name: "+id);
+        for(Group group: Groups) {
+            if(group.getId().equals(Integer.parseInt(id))) {
+                return group.toString();
+            } else {
+                System.out.println("Not this group: "+group.getId());
+            }
+        }
+        return "Error";
+
+    }
 }
