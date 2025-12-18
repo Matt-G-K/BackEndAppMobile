@@ -33,6 +33,32 @@ public class ExpenseController {
         return "Error";
     }
 
+    @PutMapping("api/expense/{id}/changeamount/{amount}")
+    public String changeAmount(@PathVariable String id, @PathVariable Integer amount){
+        for(Expense expense: Expenses){
+            if(expense.getExpenseID().equals(id)) {
+                expense.setAmount(amount);
+                return "Amount changed to: "+amount+" for expense: "+id;
+            } else {
+                System.out.println("Not this expense "+expense.getExpenseID());
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("api/expense/{id}/changeuser/{username}")
+    public String changeUser(@PathVariable String id, @PathVariable String username){
+        for(Expense expense: Expenses){
+            if(expense.getExpenseID().equals(id)) {
+                expense.setUsername(username);
+                return "Username changed to: "+username+" for expense: "+id;
+            } else {
+                System.out.println("Not this expense "+expense.getExpenseID());
+            }
+        }
+        return "Error";
+    }
+
 
 
 }
