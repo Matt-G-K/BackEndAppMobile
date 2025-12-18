@@ -49,11 +49,19 @@ public class User {
         groupsMember.add(id);
     }
 
+    public void removeGroupMember(int id) {
+        groupsMember.remove(id);
+    }
+
     public ArrayList<Integer> getTransactionsMember() {
         return transactionsMember;
     }
 
     public void addTransactionMember(int id) {
         transactionsMember.add(id);
+    }
+
+    public void removeTransactionMember(int id) {
+        transactionsMember.remove(id);
     }
 }

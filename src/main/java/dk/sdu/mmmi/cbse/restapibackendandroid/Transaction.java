@@ -8,13 +8,15 @@ public class Transaction {
     private ArrayList<String> users;
     private Integer group;
     private String creationDate;
+    private String splitType;
 
-    public Transaction(Integer id, Integer amount, ArrayList<String> users, Integer group, String creationDate) {
+    public Transaction(Integer id, Integer amount, ArrayList<String> users, Integer group, String creationDate, String splitType) {
         this.id = id;
         this.amount = amount;
         this.users = users;
         this.group = group;
         this.creationDate = creationDate;
+        this.splitType = splitType;
     }
 
     public Integer getId() {
@@ -63,5 +65,13 @@ public class Transaction {
 
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getSplitType() {
+        return splitType;
+    }
+
+    public void setSplitType(String splitType) {
+        this.splitType = splitType;
     }
 }

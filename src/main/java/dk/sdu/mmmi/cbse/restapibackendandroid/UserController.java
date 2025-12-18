@@ -67,4 +67,36 @@ public class UserController {
         }
         return "Error";
     }
+
+    @PutMapping("/api/user/addgroup/{id}/{username}")
+    public String removeGroup(@PathVariable int id, @PathVariable String username) {
+        System.out.println("got request with id: "+id+" and username: "+username);
+        for (User user: Users) {
+            System.out.println("Scanning users");
+            if (Objects.equals(user.getUsername(), username) && user.getGroupsMember().contains(id)) {
+                user.removeGroupMember(id);
+                return "Removed group with id: "+id+" to user: "+username+" list of rented cars";
+            } else if (Objects.equals(user.getUsername(), username) && !user.getGroupsMember().contains(id)) {
+                System.out.println("Group not associated to user");
+                return "Group: "+id+" not associated to user: "+username;
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("/api/user/addtransaction/{id}/{username}")
+    public String removeTransaction(@PathVariable int id, @PathVariable String username) {
+        System.out.println("got request with id: "+id+" and username: "+username);
+        for (User user: Users) {
+            System.out.println("Scanning users");
+            if (Objects.equals(user.getUsername(), username) && user.getTransactionsMember().contains(id)) {
+                user.removeTransactionMember(id);
+                return "Removed transaction with id: "+id+" to user: "+username+" list of rented cars";
+            } else if (Objects.equals(user.getUsername(), username) && !user.getTransactionsMember().contains(id)) {
+                System.out.println("Transaction not associated to user");
+                return "Transaction: "+id+" not associated to user: "+username;
+            }
+        }
+        return "Error";
+    }
 }

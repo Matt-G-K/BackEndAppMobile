@@ -53,7 +53,8 @@ public class TransactionController {
         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         ArrayList<String> users = new ArrayList<>();
         users.add(username);
-        new Transaction(ID, amount, users, group, date);
+        String splitType = "RoundRobin";
+        new Transaction(ID, amount, users, group, date, splitType);
         return "Transaction created with id: "+ID;
     }
 
@@ -65,6 +66,41 @@ public class TransactionController {
                 return "User: "+username+" added to transaction: "+transaction;
             } else if (transaction.getId().equals(id) && transaction.getUsers().contains(username)) {
                 return "User already associated with transaction";
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("/api/transactions/removeuser/{id}/{username}")
+    public String removeUserTransaction(@PathVariable int id, @PathVariable String username) {
+        for(Transaction transaction: Transactions) {
+            if(transaction.getId().equals(id) && transaction.getUsers().contains(username)) {
+                transaction.removeUser(username);
+                return "User: "+username+" added to transaction: "+transaction;
+            } else if (transaction.getId().equals(id) && !transaction.getUsers().contains(username)) {
+                return "User not associated with transaction";
+            }
+        }
+        return "Error";
+    }
+    
+    @GetMapping("api/transactions/getsplittype/{id}")
+    public String getSplitType(@PathVariable int id) {
+        String splitType = "";
+        for(Transaction transaction: Transactions) {
+            if(transaction.getId().equals(id)) {
+                splitType = transaction.getSplitType();
+            }
+        }
+        return splitType;
+    }
+
+    @PutMapping("api/transactions/setsplittype/{id}/{string}")
+    public String setSplitType(@PathVariable int id, @PathVariable String string) {
+        for(Transaction transaction: Transactions) {
+            if(transaction.getId().equals(id)) {
+                transaction.setSplitType(string);
+                return "Set splittype to: "+string+" for transaction: "+id;
             }
         }
         return "Error";

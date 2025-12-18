@@ -60,7 +60,7 @@ public class GroupController {
                 group.addTransactionID(id);
                 return "Transaction "+id+" added to group "+groupID;
             } else if (group.getId().equals(groupID) && group.getTransactionIDs().contains(id)) {
-                System.out.println("Member "+id+" already in group "+groupID);
+                System.out.println("Transaction "+id+" already in group "+groupID);
                 return "Transaction "+id+" already in group "+groupID;
             } else {
                 System.out.println("Not this group: "+group.getId());
@@ -90,5 +90,39 @@ public class GroupController {
         }
         return "Error";
 
+    }
+
+    @PutMapping("api/removemember/{id}/{groupID}")
+    public String removeMember(@PathVariable String id, @PathVariable int groupID) {
+        System.out.println("Trying to remove member: "+id+" from group: "+groupID);
+        for(Group group: Groups) {
+            if(group.getId().equals(groupID) && group.getMemberIDs().contains(id)) {
+                group.removeMemberID(id);
+                return "Member "+id+" removed to group "+groupID;
+            } else if (group.getId().equals(groupID) && !group.getMemberIDs().contains(id)) {
+                System.out.println("Member "+id+" not in group "+groupID);
+                return "Member "+id+" not in group "+groupID;
+            } else {
+                System.out.println("Not this group: "+group.getId());
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("/api/removetransaction/{id}/{groupID}")
+    public String removeTransaction(@PathVariable int id, @PathVariable int groupID) {
+        System.out.println("got transaction remove request with id: "+id+" and groupID: "+groupID);
+        for(Group group: Groups) {
+            if(group.getId().equals(groupID) && group.getTransactionIDs().contains(id)) {
+                group.removeTransactionID(id);
+                return "Transaction "+id+" added to group "+groupID;
+            } else if (group.getId().equals(groupID) && !group.getTransactionIDs().contains(id)) {
+                System.out.println("Transaction "+id+" not in group "+groupID);
+                return "Transaction "+id+" not in group "+groupID;
+            } else {
+                System.out.println("Not this group: "+group.getId());
+            }
+        }
+        return "Error";
     }
 }
