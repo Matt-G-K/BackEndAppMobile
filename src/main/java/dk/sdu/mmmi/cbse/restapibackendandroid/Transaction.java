@@ -9,11 +9,13 @@ public class Transaction {
     private Integer group;
     private String creationDate;
     private String splitType;
+    private ArrayList<String> expenses;
 
-    public Transaction(Integer id, Integer amount, ArrayList<String> users, Integer group, String creationDate, String splitType) {
+    public Transaction(Integer id, Integer amount, ArrayList<String> users, ArrayList<String> expenses, Integer group, String creationDate, String splitType) {
         this.id = id;
         this.amount = amount;
         this.users = users;
+        this.expenses = expenses;
         this.group = group;
         this.creationDate = creationDate;
         this.splitType = splitType;
@@ -73,5 +75,17 @@ public class Transaction {
 
     public void setSplitType(String splitType) {
         this.splitType = splitType;
+    }
+
+    public ArrayList<String> getExpenses() {
+        return expenses;
+    }
+
+    public void addExpense(String expense) {
+        expenses.add(expense);
+    }
+
+    public void removeExpense(String expense) {
+        expenses.removeIf(ID -> ID.equals(expense));
     }
 }

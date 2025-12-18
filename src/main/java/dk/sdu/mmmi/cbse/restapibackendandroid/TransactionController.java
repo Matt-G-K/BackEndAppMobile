@@ -52,9 +52,10 @@ public class TransactionController {
         int ID = Transactions.getLast().getId()+1;
         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         ArrayList<String> users = new ArrayList<>();
+        ArrayList<String> expenses = new ArrayList<>();
         users.add(username);
         String splitType = "RoundRobin";
-        new Transaction(ID, amount, users, group, date, splitType);
+        new Transaction(ID, amount, users, expenses, group, date, splitType);
         return "Transaction created with id: "+ID;
     }
 
@@ -101,6 +102,42 @@ public class TransactionController {
             if(transaction.getId().equals(id)) {
                 transaction.setSplitType(string);
                 return "Set splittype to: "+string+" for transaction: "+id;
+            }
+        }
+        return "Error";
+    }
+
+    @GetMapping("api/transactions/expenses/{id}")
+    public List<String> getExpensesTransaction(@PathVariable int id) {
+        for(Transaction transaction: Transactions) {
+            if(transaction.getId().equals(id)) {
+                return transaction.getExpenses();
+            }
+        }
+        return new ArrayList<String>();
+    }
+
+    @PutMapping("api/transactions/addexpenses/{id}/{expense}")
+    public String addExpense(@PathVariable int id, @PathVariable String expense) {
+        for(Transaction transaction: Transactions) {
+            if(transaction.getId().equals(id) && !transaction.getExpenses().contains(expense)) {
+                transaction.addExpense(expense);
+                return "Expense: "+expense+" added to transaction: "+transaction;
+            } else if (transaction.getId().equals(id) && transaction.getExpenses().contains(expense)) {
+                return "Expense already associated with transaction";
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("api/transactions/addexpenses/{id}/{expense}")
+    public String removeExpense(@PathVariable int id, @PathVariable String expense) {
+        for(Transaction transaction: Transactions) {
+            if(transaction.getId().equals(id) && transaction.getExpenses().contains(expense)) {
+                transaction.removeExpense(expense);
+                return "Expense: "+expense+" removed from transaction: "+transaction;
+            } else if (transaction.getId().equals(id) && !transaction.getExpenses().contains(expense)) {
+                return "Expense not associated with transaction";
             }
         }
         return "Error";
