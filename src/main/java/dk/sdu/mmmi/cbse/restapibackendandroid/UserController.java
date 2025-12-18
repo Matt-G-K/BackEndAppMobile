@@ -68,7 +68,7 @@ public class UserController {
         return "Error";
     }
 
-    @PutMapping("/api/user/addgroup/{id}/{username}")
+    @PutMapping("/api/user/removegroup/{id}/{username}")
     public String removeGroup(@PathVariable int id, @PathVariable String username) {
         System.out.println("got request with id: "+id+" and username: "+username);
         for (User user: Users) {
@@ -84,7 +84,7 @@ public class UserController {
         return "Error";
     }
 
-    @PutMapping("/api/user/addtransaction/{id}/{username}")
+    @PutMapping("/api/user/removetransaction/{id}/{username}")
     public String removeTransaction(@PathVariable int id, @PathVariable String username) {
         System.out.println("got request with id: "+id+" and username: "+username);
         for (User user: Users) {
