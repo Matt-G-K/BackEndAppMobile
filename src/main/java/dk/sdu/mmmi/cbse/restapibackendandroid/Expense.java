@@ -1,0 +1,48 @@
+package dk.sdu.mmmi.cbse.restapibackendandroid;
+
+public class Expense {
+    private String expenseID;
+    private String username;
+    private Integer amount;
+    private Integer transactionID;
+
+    public Expense(String expenseID, String username, Integer amount, Integer transactionID){
+        this.expenseID = expenseID;
+        this.username = username;
+        this.amount = amount;
+        this.transactionID = transactionID;
+    }
+
+
+    public String getExpenseID() {
+        return expenseID;
+    }
+
+    public void setExpenseID(String expenseID) {
+        this.expenseID = expenseID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public Integer getTransactionID() {
+        return transactionID;
+    }
+
+    public void setTransactionID(Integer transactionID) {
+        this.transactionID = transactionID;
+    }
+}

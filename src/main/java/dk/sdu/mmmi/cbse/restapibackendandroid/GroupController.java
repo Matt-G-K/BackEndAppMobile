@@ -74,7 +74,8 @@ public class GroupController {
         System.out.println("Trying to create group with name: "+name);
         int ID = Groups.getLast().getId()+1;
         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-        new Group(ID, name, emptyArrayString, emptyArray, date);
+        Group newGroup = new Group(ID, name, emptyArrayString, emptyArray, date);
+        Groups.add(newGroup);
         return "Group created with id: "+ID;
     }
 

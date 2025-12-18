@@ -55,7 +55,8 @@ public class TransactionController {
         ArrayList<String> expenses = new ArrayList<>();
         users.add(username);
         String splitType = "RoundRobin";
-        new Transaction(ID, amount, users, expenses, group, date, splitType);
+        Transaction newTransaction = new Transaction(ID, amount, users, expenses, group, date, splitType);
+        Transactions.add(newTransaction);
         return "Transaction created with id: "+ID;
     }
 
