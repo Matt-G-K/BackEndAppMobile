@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.restapibackendandroid;
+package dk.sdu.mmmi.cbse.restapibackendandroid.model;
 
 public class DeviceToken {
     private String userId;

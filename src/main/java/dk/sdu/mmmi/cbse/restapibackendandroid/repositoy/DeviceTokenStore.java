@@ -1,8 +1,8 @@
-package dk.sdu.mmmi.cbse.restapibackendandroid;
+package dk.sdu.mmmi.cbse.restapibackendandroid.repositoy;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class DeviceTokenStore {
 
      // userId -> deviceToken
-    private final Map<String, String> tokens = new ConcurrentHashMap<>();
+    private final Map<String, String> tokens = new HashMap<>();
 
     public void saveToken(String userId, String token) {
         tokens.put(userId, token);

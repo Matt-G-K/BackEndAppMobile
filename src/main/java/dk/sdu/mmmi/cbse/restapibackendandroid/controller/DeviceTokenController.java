@@ -1,6 +1,5 @@
-package dk.sdu.mmmi.cbse.restapibackendandroid;
+package dk.sdu.mmmi.cbse.restapibackendandroid.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,7 +7,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import dk.sdu.mmmi.cbse.service.DeviceTokenService;
+import dk.sdu.mmmi.cbse.restapibackendandroid.model.DeviceToken;
+import dk.sdu.mmmi.cbse.restapibackendandroid.service.DeviceTokenService;
+
 
 @RestController
 @CrossOrigin(origins = "*")

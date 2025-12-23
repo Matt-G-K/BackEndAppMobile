@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.service;
+package dk.sdu.mmmi.cbse.restapibackendandroid.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import dk.sdu.mmmi.cbse.restapibackendandroid.DeviceToken;
+import dk.sdu.mmmi.cbse.restapibackendandroid.model.DeviceToken;
 
 @Service
 public class DeviceTokenService {
