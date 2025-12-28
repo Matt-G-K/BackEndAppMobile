@@ -131,7 +131,7 @@ public class TransactionController {
         return "Error";
     }
 
-    @PutMapping("api/transactions/addexpenses/{id}/{expense}")
+    @PutMapping("api/transactions/removeexpenses/{id}/{expense}")
     public String removeExpense(@PathVariable int id, @PathVariable String expense) {
         for(Transaction transaction: Transactions) {
             if(transaction.getId().equals(id) && transaction.getExpenses().contains(expense)) {
