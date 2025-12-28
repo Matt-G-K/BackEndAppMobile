@@ -13,6 +13,8 @@ import com.google.firebase.FirebaseOptions;
 
 import jakarta.annotation.PostConstruct;
 
+
+// Firebase configuration class to initialize FirebaseApp, using service account credentials from classpath
 @Configuration
 public class FirebaseConfig {
 

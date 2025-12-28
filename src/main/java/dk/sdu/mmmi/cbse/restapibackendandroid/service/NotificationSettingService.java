@@ -12,7 +12,7 @@ import dk.sdu.mmmi.cbse.restapibackendandroid.repositoy.NotificationSettingStore
 
 @Service
 public class NotificationSettingService {
-    // UserId -> NotificationSetting
+    
     private final NotificationSettingStore store;
 
     public NotificationSettingService(NotificationSettingStore store) {

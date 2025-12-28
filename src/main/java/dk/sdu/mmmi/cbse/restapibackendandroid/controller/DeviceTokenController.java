@@ -30,13 +30,6 @@ public class DeviceTokenController {
 
     }
 
-    
-    @GetMapping("/api/devicetoken/test")
-    public String testEndpoint() {
-        System.out.println("DeviceTokenController test endpoint called");
-        return "DeviceTokenController is working!";
-    }
-
     @GetMapping("/api/devicetoken/gettokens/{userId}")
     public String getAllDeviceTokens(@PathVariable String userId) {
         var tokens = deviceTokenService.getTokensUser(userId);
