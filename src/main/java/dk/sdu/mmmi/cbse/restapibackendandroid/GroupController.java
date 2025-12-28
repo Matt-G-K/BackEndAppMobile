@@ -12,11 +12,11 @@ public class GroupController {
     private ArrayList<Integer> emptyArray = new ArrayList<>();
     private ArrayList<String> emptyArrayString = new ArrayList<>();
 
-    private List<Group> Groups = Arrays.asList(
-            new Group(1, "a", emptyArrayString, emptyArray, "01-01-2020"),
-            new Group(2, "b", emptyArrayString, emptyArray, "02-01-2020"),
-            new Group(3, "c", emptyArrayString, emptyArray, "03-01-2020")
-    );
+    private List<Group> Groups = new ArrayList<>(Arrays.asList(
+            new Group(1, "Event1", emptyArrayString, emptyArray, "01-01-2020"),
+            new Group(2, "Event2", emptyArrayString, emptyArray, "02-01-2020"),
+            new Group(3, "Event3", emptyArrayString, emptyArray, "03-01-2020")
+    ));
 
     @GetMapping("/api/groups")
     public List<Group> getGroups() {
@@ -125,5 +125,16 @@ public class GroupController {
             }
         }
         return "Error";
+    }
+
+
+    // Helper method to get group name by ID
+    public String getGroupNameById(int id) {
+        for (Group group : Groups) {
+            if (group.getId().equals(id)) {
+                return group.getName();
+            }
+        }
+        return null;
     }
 }

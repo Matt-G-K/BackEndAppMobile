@@ -2,6 +2,9 @@ package dk.sdu.mmmi.cbse.restapibackendandroid;
 
 import org.springframework.web.bind.annotation.*;
 
+import dk.sdu.mmmi.cbse.restapibackendandroid.service.NotificationService;
+import dk.sdu.mmmi.cbse.restapibackendandroid.service.NotificationSettingService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +14,16 @@ import java.util.Objects;
 public class UserController {
 
     private List<User> Users = new ArrayList<>();
+    private GroupController groupController;
+
+    private final NotificationService notificationService;
+    private final NotificationSettingService notificationSettingService;
+
+    public UserController(GroupController groupController, NotificationService notificationService, NotificationSettingService notificationSettingService) {
+        this.groupController = groupController;
+        this.notificationService = notificationService;
+        this.notificationSettingService = notificationSettingService;
+    }
 
     @GetMapping("/api/users")
     public List<User> getUsers() {
@@ -39,11 +52,19 @@ public class UserController {
     @PutMapping("/api/user/addgroup/{id}/{username}")
     public String addGroup(@PathVariable int id, @PathVariable String username) {
         System.out.println("got request with id: "+id+" and username: "+username);
+
+        // Temp solution to get group name
+        String groupName = groupController.getGroupNameById(id);
+        
+
         for (User user: Users) {
             System.out.println("Scanning users");
             if (Objects.equals(user.getUsername(), username) && !user.getGroupsMember().contains(id)) {
+                // Send notification about group invitation
+                notificationService.sendGroupInvitationNotification(user.getUserId(), groupName);
+
                 user.addGroupMember(id);
-                return "Added group with id: "+id+" to user: "+username+" list of rented cars";
+                return "Added group with id: "+id+" to user: "+username+" to group " + groupName;
             } else if (Objects.equals(user.getUsername(), username) && user.getGroupsMember().contains(id)) {
                 System.out.println("Group already associated to user");
                 return "Group: "+id+" already associated to user: "+username;
@@ -99,4 +120,19 @@ public class UserController {
         }
         return "Error";
     }
+
+    @PutMapping("/api/user/setuserid/{username}/{userId}")
+    public String setUserId(@PathVariable String username, @PathVariable String userId) {
+        // Create default notification settings for the new user
+        notificationSettingService.createDefaultSettings(userId);
+        for (User user: Users) {
+            if (Objects.equals(user.getUsername(), username)) {
+                user.setUserId(userId);
+                return "Set userId: "+userId+" for user: "+username;
+            }
+        }
+        return "Error";
+    }
+
 }
+

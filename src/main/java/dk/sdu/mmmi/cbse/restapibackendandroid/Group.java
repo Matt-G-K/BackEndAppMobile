@@ -72,4 +72,5 @@ public class Group {
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
+
 }
