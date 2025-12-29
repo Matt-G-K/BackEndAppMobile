@@ -34,6 +34,7 @@ public class NotificationService {
         }
     }
 
+    // Method to send a group payment reminder notification
     public void sendGroupPing(String userId, String groupName) {
         var tokens = deviceTokenService.getTokensUser(userId);
 
@@ -43,7 +44,7 @@ public class NotificationService {
                 userId,
                 token,
                 "Group Payment Reminder",
-                "Don't forget to settle your payments in your groups!",
+                "Don't forget to settle your payments in the group: " + groupName,
                 NotificationType.GROUP_PING
             );
         }
