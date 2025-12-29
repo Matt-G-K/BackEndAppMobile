@@ -5,5 +5,6 @@ public enum NotificationType {
     EXPENSE_CREATED,
     ADDED_TO_GROUP,
     REMINDER,
-    TEST
+    TEST,
+    GROUP_PING
 }

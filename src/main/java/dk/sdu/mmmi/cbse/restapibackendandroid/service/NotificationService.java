@@ -33,4 +33,20 @@ public class NotificationService {
             );
         }
     }
+
+    public void sendGroupPing(String userId, String groupName) {
+        var tokens = deviceTokenService.getTokensUser(userId);
+
+        for(String token: tokens){
+            System.out.println("Sending group ping notification to token: " + token);
+            fcmService.sendPushNotification(
+                userId,
+                token,
+                "Group Payment Reminder",
+                "Don't forget to settle your payments in your groups!",
+                NotificationType.GROUP_PING
+            );
+        }
+    }
+
 }

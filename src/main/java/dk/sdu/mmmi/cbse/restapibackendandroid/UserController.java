@@ -56,7 +56,6 @@ public class UserController {
         // Temp solution to get group name
         String groupName = groupController.getGroupNameById(id);
         
-
         for (User user: Users) {
             System.out.println("Scanning users");
             if (Objects.equals(user.getUsername(), username) && !user.getGroupsMember().contains(id)) {
@@ -121,6 +120,7 @@ public class UserController {
         return "Error";
     }
 
+    // Temp solution until authentication is implemented
     @PutMapping("/api/user/setuserid/{username}/{userId}")
     public String setUserId(@PathVariable String username, @PathVariable String userId) {
         // Create default notification settings for the new user

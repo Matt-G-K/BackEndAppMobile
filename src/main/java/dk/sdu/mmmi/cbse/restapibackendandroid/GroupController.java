@@ -5,9 +5,13 @@ import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import dk.sdu.mmmi.cbse.restapibackendandroid.service.NotificationService;
+
 @RestController
 @CrossOrigin(origins = "*")
 public class GroupController {
+
+    private final NotificationService notificationService;
 
     private ArrayList<Integer> emptyArray = new ArrayList<>();
     private ArrayList<String> emptyArrayString = new ArrayList<>();
@@ -17,6 +21,10 @@ public class GroupController {
             new Group(2, "Event2", emptyArrayString, emptyArray, "02-01-2020"),
             new Group(3, "Event3", emptyArrayString, emptyArray, "03-01-2020")
     ));
+
+    public GroupController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     @GetMapping("/api/groups")
     public List<Group> getGroups() {
@@ -125,6 +133,26 @@ public class GroupController {
             }
         }
         return "Error";
+    }
+
+    // Notify group about payment ping
+    @GetMapping("/api/group/notify/{id}")
+    public String notifyGroupPing(@PathVariable int id) {
+        String groupName = getGroupNameById(id);
+        if (groupName != null) {
+            Groups.stream()
+                    .filter(group -> group.getId().equals(id))
+                    .findFirst()
+                    .ifPresent(group -> {
+                        for (String memberID : group.getMemberIDs()) {
+                            notificationService.sendGroupPing(memberID, groupName);
+                            System.out.println("Notification sent to member: " + memberID + " of group: " + groupName);
+                        }
+                    });
+            return "Notification sent to group: " + groupName;
+        } else {
+            return "Group not found.";
+        }
     }
 
 
