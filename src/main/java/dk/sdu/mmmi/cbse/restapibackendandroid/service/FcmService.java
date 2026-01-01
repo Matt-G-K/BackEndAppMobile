@@ -1,23 +1,15 @@
 package dk.sdu.mmmi.cbse.restapibackendandroid.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.services.storage.model.Notification;
+
+
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 
 import dk.sdu.mmmi.cbse.restapibackendandroid.model.types.NotificationType;
-import dk.sdu.mmmi.cbse.restapibackendandroid.repositoy.NotificationSettingStore;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+
 
 
 @Service

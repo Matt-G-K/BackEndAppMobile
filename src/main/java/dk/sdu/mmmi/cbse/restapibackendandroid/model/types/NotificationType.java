@@ -6,5 +6,6 @@ public enum NotificationType {
     ADDED_TO_GROUP,
     REMINDER,
     TEST,
-    GROUP_PING
+    GROUP_PING,
+    TRANSACTION_CREATED
 }

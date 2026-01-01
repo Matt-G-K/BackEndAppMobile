@@ -2,6 +2,7 @@ package dk.sdu.mmmi.cbse.restapibackendandroid;
 
 import org.springframework.web.bind.annotation.*;
 
+import dk.sdu.mmmi.cbse.restapibackendandroid.repositoy.UserStore;
 import dk.sdu.mmmi.cbse.restapibackendandroid.service.NotificationService;
 import dk.sdu.mmmi.cbse.restapibackendandroid.service.NotificationSettingService;
 
@@ -13,26 +14,27 @@ import java.util.Objects;
 @CrossOrigin(origins = "*")
 public class UserController {
 
-    private List<User> Users = new ArrayList<>();
+    private final UserStore Users;
     private GroupController groupController;
 
     private final NotificationService notificationService;
     private final NotificationSettingService notificationSettingService;
 
-    public UserController(GroupController groupController, NotificationService notificationService, NotificationSettingService notificationSettingService) {
+    public UserController(GroupController groupController, NotificationService notificationService, NotificationSettingService notificationSettingService, UserStore Users) {
         this.groupController = groupController;
+        this.Users = Users;
         this.notificationService = notificationService;
         this.notificationSettingService = notificationSettingService;
     }
 
     @GetMapping("/api/users")
     public List<User> getUsers() {
-        return Users;
+        return Users.getUsers();
     }
 
     @GetMapping("/api/users/{username}/history")
     public List<Integer> getUserHistory(@PathVariable String username) {
-        for (User user: Users) {
+        for (User user: Users.getUsers()) {
             if (Objects.equals(user.getUsername(), username)) {
                 return user.getTransactionsMember();
             }
@@ -45,7 +47,7 @@ public class UserController {
         System.out.println("Creating user");
         ArrayList<Integer> emptyHistory = new ArrayList<>();
         User newUser = new User(username, email, password, emptyHistory, emptyHistory);
-        Users.add(newUser);
+        Users.addUser(newUser);
         return "Added user with username: "+username;
     }
 
@@ -56,7 +58,7 @@ public class UserController {
         // Temp solution to get group name
         String groupName = groupController.getGroupNameById(id);
         
-        for (User user: Users) {
+        for (User user: Users.getUsers()) {
             System.out.println("Scanning users");
             if (Objects.equals(user.getUsername(), username) && !user.getGroupsMember().contains(id)) {
                 // Send notification about group invitation
@@ -75,7 +77,7 @@ public class UserController {
     @PutMapping("/api/user/addtransaction/{id}/{username}")
     public String addTransaction(@PathVariable int id, @PathVariable String username) {
         System.out.println("got request with id: "+id+" and username: "+username);
-        for (User user: Users) {
+        for (User user: Users.getUsers()) {
             System.out.println("Scanning users");
             if (Objects.equals(user.getUsername(), username) && !user.getTransactionsMember().contains(id)) {
                 user.addTransactionMember(id);
@@ -91,7 +93,7 @@ public class UserController {
     @PutMapping("/api/user/removegroup/{id}/{username}")
     public String removeGroup(@PathVariable int id, @PathVariable String username) {
         System.out.println("got request with id: "+id+" and username: "+username);
-        for (User user: Users) {
+        for (User user: Users.getUsers()) {
             System.out.println("Scanning users");
             if (Objects.equals(user.getUsername(), username) && user.getGroupsMember().contains(id)) {
                 user.removeGroupMember(id);
@@ -107,7 +109,7 @@ public class UserController {
     @PutMapping("/api/user/removetransaction/{id}/{username}")
     public String removeTransaction(@PathVariable int id, @PathVariable String username) {
         System.out.println("got request with id: "+id+" and username: "+username);
-        for (User user: Users) {
+        for (User user: Users.getUsers()) {
             System.out.println("Scanning users");
             if (Objects.equals(user.getUsername(), username) && user.getTransactionsMember().contains(id)) {
                 user.removeTransactionMember(id);
@@ -125,7 +127,7 @@ public class UserController {
     public String setUserId(@PathVariable String username, @PathVariable String userId) {
         // Create default notification settings for the new user
         notificationSettingService.createDefaultSettings(userId);
-        for (User user: Users) {
+        for (User user: Users.getUsers()) {
             if (Objects.equals(user.getUsername(), username)) {
                 user.setUserId(userId);
                 return "Set userId: "+userId+" for user: "+username;
