@@ -7,16 +7,29 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dk.sdu.mmmi.cbse.restapibackendandroid.repositoy.GroupStore;
+import dk.sdu.mmmi.cbse.restapibackendandroid.repositoy.TransactionStore;
+import dk.sdu.mmmi.cbse.restapibackendandroid.service.NotificationService;
+
 @RestController
 @CrossOrigin(origins = "*")
 public class TransactionController {
 
-    private List<Transaction> Transactions = new ArrayList<>();
+    private TransactionStore Transactions;
+    private GroupStore groups;
+    private final NotificationService notificationService;
+
+
+    public TransactionController(NotificationService notificationService, GroupStore groups, TransactionStore Transactions) {
+        this.notificationService = notificationService;
+        this.groups = groups;
+        this.Transactions = Transactions;
+    }
 
     @GetMapping("/api/transactions/group/{id}")
     public List<Transaction> getTransactionsGroup(@PathVariable int id) {
         List<Transaction> transactionsgroup = new ArrayList<>();
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getGroup().equals(id)) {
                 transactionsgroup.add(transaction);
             }
@@ -27,7 +40,7 @@ public class TransactionController {
     @GetMapping("/api/transactions/user/{username}")
     public List<Transaction> getTransactionsUser(@PathVariable String username) {
         List<Transaction> transactionsgroup = new ArrayList<>();
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getUsers().contains(username)) {
                 transactionsgroup.add(transaction);
             }
@@ -38,7 +51,7 @@ public class TransactionController {
     @GetMapping("/api/transactions/{id}")
     public List<Transaction> getTransaction(@PathVariable int id) {
         List<Transaction> transactionsgroup = new ArrayList<>();
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id)) {
                 transactionsgroup.add(transaction);
             }
@@ -56,15 +69,17 @@ public class TransactionController {
         users.add(username);
         String splitType = "RoundRobin";
         Transaction newTransaction = new Transaction(ID, amount, users, expenses, group, date, splitType, false);
-        Transactions.add(newTransaction);
+        Transactions.addTransaction(newTransaction);
+        notificationService.sendTransactionCreatedNotification(username, newTransaction.toString(), groups.getGroupById(group));
         return "Transaction created with id: "+ID;
     }
 
     @PutMapping("/api/transactions/adduser/{id}/{username}")
     public String addUserTransaction(@PathVariable int id, @PathVariable String username) {
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id) && !transaction.getUsers().contains(username)) {
                 transaction.addUser(username);
+                notificationService.sendAddedToTransactionNotification(username);
                 return "User: "+username+" added to transaction: "+transaction;
             } else if (transaction.getId().equals(id) && transaction.getUsers().contains(username)) {
                 return "User already associated with transaction";
@@ -75,7 +90,7 @@ public class TransactionController {
 
     @PutMapping("/api/transactions/removeuser/{id}/{username}")
     public String removeUserTransaction(@PathVariable int id, @PathVariable String username) {
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id) && transaction.getUsers().contains(username)) {
                 transaction.removeUser(username);
                 return "User: "+username+" added to transaction: "+transaction;
@@ -89,7 +104,7 @@ public class TransactionController {
     @GetMapping("api/transactions/getsplittype/{id}")
     public String getSplitType(@PathVariable int id) {
         String splitType = "";
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id)) {
                 splitType = transaction.getSplitType();
             }
@@ -99,7 +114,7 @@ public class TransactionController {
 
     @PutMapping("api/transactions/setsplittype/{id}/{string}")
     public String setSplitType(@PathVariable int id, @PathVariable String string) {
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id)) {
                 transaction.setSplitType(string);
                 return "Set splittype to: "+string+" for transaction: "+id;
@@ -110,7 +125,7 @@ public class TransactionController {
 
     @GetMapping("api/transactions/expenses/{id}")
     public List<String> getExpensesTransaction(@PathVariable int id) {
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id)) {
                 return transaction.getExpenses();
             }
@@ -120,9 +135,10 @@ public class TransactionController {
 
     @PutMapping("api/transactions/addexpenses/{id}/{expense}")
     public String addExpense(@PathVariable int id, @PathVariable String expense) {
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id) && !transaction.getExpenses().contains(expense)) {
                 transaction.addExpense(expense);
+                notificationService.sendExpenseCreatedNotification(expense, transaction);
                 return "Expense: "+expense+" added to transaction: "+transaction;
             } else if (transaction.getId().equals(id) && transaction.getExpenses().contains(expense)) {
                 return "Expense already associated with transaction";
@@ -133,7 +149,7 @@ public class TransactionController {
 
     @PutMapping("api/transactions/removeexpenses/{id}/{expense}")
     public String removeExpense(@PathVariable int id, @PathVariable String expense) {
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id) && transaction.getExpenses().contains(expense)) {
                 transaction.removeExpense(expense);
                 return "Expense: "+expense+" removed from transaction: "+transaction;
@@ -146,7 +162,7 @@ public class TransactionController {
 
     @GetMapping("api/transactions/getpaidstatus/{id}")
     public String getPaidStatus(@PathVariable int id) {
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id)) {
                 return String.valueOf(transaction.getPaidStatus());
             }
@@ -156,9 +172,13 @@ public class TransactionController {
 
     @PutMapping("api/transactions/setpaidstatus/{id}/{value}")
     public String setPaidStatus(@PathVariable int id, @PathVariable boolean value) {
-        for(Transaction transaction: Transactions) {
+        for(Transaction transaction: Transactions.getTransactions()) {
             if(transaction.getId().equals(id)) {
                 transaction.setPaidStatus(value);
+                if(value) {
+                    notificationService.sendExpensePaidNotification(id);
+
+                }
                 return "Paid status set to: "+value+" for transaction: "+transaction;
             }
         }

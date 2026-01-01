@@ -2,6 +2,8 @@ package dk.sdu.mmmi.cbse.restapibackendandroid;
 
 import org.springframework.web.bind.annotation.*;
 
+import dk.sdu.mmmi.cbse.restapibackendandroid.service.NotificationService;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +13,10 @@ import java.util.Date;
 public class ExpenseController {
 
     private ArrayList<Expense> Expenses = new ArrayList<>();
+    private final NotificationService notificationService;
+    public ExpenseController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     @PostMapping("api/createexpense/{id}/{username}/{amount}/{transactionID}")
     public String createExpense(@PathVariable String id, @PathVariable String username,
@@ -74,6 +80,9 @@ public class ExpenseController {
         for(Expense expense: Expenses) {
             if(expense.getExpenseID().equals(id)) {
                 expense.setPaidStatus(value);
+                if(value) {
+                    notificationService.sendExpensePaidNotification(expense.getTransactionID());
+                }
                 return "Paid status set to: "+value+" for expense: "+expense;
             }
         }

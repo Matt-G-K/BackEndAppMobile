@@ -31,4 +31,13 @@ public class GroupStore {
     public Group getLast() {
         return Groups.get(Groups.size() - 1);
     }
+
+    public Group getGroupById(int id) {
+        for (Group group : Groups) {
+            if (group.getId() == id) {
+                return group;
+            }
+        }
+        return null;
+    }
 }

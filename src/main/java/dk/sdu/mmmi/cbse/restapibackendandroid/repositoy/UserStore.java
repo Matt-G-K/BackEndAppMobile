@@ -19,4 +19,22 @@ public class UserStore {
         Users.add(user);
     }
 
+    public User getUserById(String id) {
+        for (User user : Users) {
+            if (user.getUserId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User getUserByUsername(String username) {
+        for (User user : Users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 }
