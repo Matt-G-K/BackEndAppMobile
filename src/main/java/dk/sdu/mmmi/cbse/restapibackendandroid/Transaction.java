@@ -10,8 +10,9 @@ public class Transaction {
     private String creationDate;
     private String splitType;
     private ArrayList<String> expenses;
+    private boolean paidStatus;
 
-    public Transaction(Integer id, Integer amount, ArrayList<String> users, ArrayList<String> expenses, Integer group, String creationDate, String splitType) {
+    public Transaction(Integer id, Integer amount, ArrayList<String> users, ArrayList<String> expenses, Integer group, String creationDate, String splitType, boolean paidStatus) {
         this.id = id;
         this.amount = amount;
         this.users = users;
@@ -19,6 +20,7 @@ public class Transaction {
         this.group = group;
         this.creationDate = creationDate;
         this.splitType = splitType;
+        this.paidStatus = paidStatus;
     }
 
     public Integer getId() {
@@ -87,5 +89,13 @@ public class Transaction {
 
     public void removeExpense(String expense) {
         expenses.removeIf(ID -> ID.equals(expense));
+    }
+
+    public boolean getPaidStatus() {
+        return paidStatus;
+    }
+
+    public void setPaidStatus(boolean paidStatus) {
+        this.paidStatus = paidStatus;
     }
 }

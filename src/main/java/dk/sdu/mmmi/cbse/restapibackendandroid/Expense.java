@@ -5,12 +5,14 @@ public class Expense {
     private String username;
     private Integer amount;
     private Integer transactionID;
+    private boolean paidStatus;
 
-    public Expense(String expenseID, String username, Integer amount, Integer transactionID){
+    public Expense(String expenseID, String username, Integer amount, Integer transactionID, boolean paidStatus){
         this.expenseID = expenseID;
         this.username = username;
         this.amount = amount;
         this.transactionID = transactionID;
+        this.paidStatus = paidStatus;
     }
 
 
@@ -44,5 +46,13 @@ public class Expense {
 
     public void setTransactionID(Integer transactionID) {
         this.transactionID = transactionID;
+    }
+
+    public boolean getPaidStatus() {
+        return paidStatus;
+    }
+
+    public void setPaidStatus(boolean paidStatus) {
+        this.paidStatus = paidStatus;
     }
 }

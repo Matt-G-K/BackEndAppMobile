@@ -55,7 +55,7 @@ public class TransactionController {
         ArrayList<String> expenses = new ArrayList<>();
         users.add(username);
         String splitType = "RoundRobin";
-        Transaction newTransaction = new Transaction(ID, amount, users, expenses, group, date, splitType);
+        Transaction newTransaction = new Transaction(ID, amount, users, expenses, group, date, splitType, false);
         Transactions.add(newTransaction);
         return "Transaction created with id: "+ID;
     }
@@ -139,6 +139,27 @@ public class TransactionController {
                 return "Expense: "+expense+" removed from transaction: "+transaction;
             } else if (transaction.getId().equals(id) && !transaction.getExpenses().contains(expense)) {
                 return "Expense not associated with transaction";
+            }
+        }
+        return "Error";
+    }
+
+    @GetMapping("api/transactions/getpaidstatus/{id}")
+    public String getPaidStatus(@PathVariable int id) {
+        for(Transaction transaction: Transactions) {
+            if(transaction.getId().equals(id)) {
+                return String.valueOf(transaction.getPaidStatus());
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("api/transactions/setpaidstatus/{id}/{value}")
+    public String setPaidStatus(@PathVariable int id, @PathVariable boolean value) {
+        for(Transaction transaction: Transactions) {
+            if(transaction.getId().equals(id)) {
+                transaction.setPaidStatus(value);
+                return "Paid status set to: "+value+" for transaction: "+transaction;
             }
         }
         return "Error";

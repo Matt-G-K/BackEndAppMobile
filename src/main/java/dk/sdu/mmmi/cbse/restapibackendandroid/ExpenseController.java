@@ -16,7 +16,7 @@ public class ExpenseController {
     public String createExpense(@PathVariable String id, @PathVariable String username,
                                 @PathVariable Integer amount, @PathVariable Integer transactionID) {
         System.out.println("Trying to create expense with id: "+id);
-        Expense newExpense = new Expense(id, username, amount, transactionID);
+        Expense newExpense = new Expense(id, username, amount, transactionID, false);
         Expenses.add(newExpense);
         return "Expense created with id: "+id;
     }
@@ -59,6 +59,26 @@ public class ExpenseController {
         return "Error";
     }
 
+    @GetMapping("api/expense/getpaidstatus/{id}")
+    public String getPaidStatus(@PathVariable String id) {
+        for(Expense expense: Expenses) {
+            if(expense.getExpenseID().equals(id)) {
+                return String.valueOf(expense.getPaidStatus());
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("api/expense/setpaidstatus/{id}/{value}")
+    public String setPaidStatus(@PathVariable String id, @PathVariable boolean value) {
+        for(Expense expense: Expenses) {
+            if(expense.getExpenseID().equals(id)) {
+                expense.setPaidStatus(value);
+                return "Paid status set to: "+value+" for expense: "+expense;
+            }
+        }
+        return "Error";
+    }
 
 
 }
