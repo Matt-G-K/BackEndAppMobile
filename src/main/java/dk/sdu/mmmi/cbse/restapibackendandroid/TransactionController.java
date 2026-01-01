@@ -177,7 +177,6 @@ public class TransactionController {
                 transaction.setPaidStatus(value);
                 if(value) {
                     notificationService.sendExpensePaidNotification(id);
-
                 }
                 return "Paid status set to: "+value+" for transaction: "+transaction;
             }
