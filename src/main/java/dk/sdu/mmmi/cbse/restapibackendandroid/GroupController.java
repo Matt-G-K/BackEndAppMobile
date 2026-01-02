@@ -120,7 +120,7 @@ public class GroupController {
         for(Group group: Groups.getGroups()) {
             if(group.getId().equals(groupID) && group.getTransactionIDs().contains(id)) {
                 group.removeTransactionID(id);
-                return "Transaction "+id+" added to group "+groupID;
+                return "Transaction "+id+" removed from group "+groupID;
             } else if (group.getId().equals(groupID) && !group.getTransactionIDs().contains(id)) {
                 System.out.println("Transaction "+id+" not in group "+groupID);
                 return "Transaction "+id+" not in group "+groupID;
