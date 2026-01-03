@@ -3,8 +3,11 @@ package dk.sdu.mmmi.cbse.restapibackendandroid.repositoy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import dk.sdu.mmmi.cbse.restapibackendandroid.Transaction;
 
+@Component
 public class TransactionStore {
     private List<Transaction> Transactions = new ArrayList<>();
 
