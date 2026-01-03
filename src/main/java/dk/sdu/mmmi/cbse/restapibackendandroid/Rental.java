@@ -18,9 +18,11 @@ public class Rental {
         private String imageUrl;
         private String name;
         private String model;
+        private Integer totalcost;
+        private Integer days;
 
 
-        public RentalModel( String carId, String user, OffsetDateTime rentalStartDate, OffsetDateTime returnDate, String imageUrl, String name, String model) {
+        public RentalModel( String carId, String user, OffsetDateTime rentalStartDate, OffsetDateTime returnDate, String imageUrl, String name, String model, Integer totalcost, Integer days) {
             this.carId = carId;
             this.user = user;
             this.rentalStartDate = rentalStartDate;
@@ -28,6 +30,8 @@ public class Rental {
             this.imageUrl = imageUrl;
             this.name = name;
             this.model = model;
+            this.totalcost = totalcost;
+            this.days = days;
         }
 
         
@@ -87,5 +91,9 @@ public class Rental {
         public void setModel(String model) {
             this.model = model;
         }
+
+        public Integer getTotalcost(){return totalcost;}
+
+        public Integer getDays(){return days;}
     }
 }

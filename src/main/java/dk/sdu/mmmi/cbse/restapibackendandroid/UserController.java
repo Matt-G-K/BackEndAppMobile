@@ -36,16 +36,15 @@ public class UserController {
         return "Added user with username: "+username;
     }
 
-    // @PutMapping("/api/rent/{id}/{username}")
-    // public String rentCarUser(@PathVariable int id, @PathVariable String username) {
-    //     System.out.println("got request with id: "+id+" and username: "+username);
-    //     for (User user: Users) {
-    //         System.out.println("Scanning users");
-    //         if (Objects.equals(user.getUsername(), username)) {
-    //             user.addCarsRented(String.valueOf(id));
-    //             return "Added car with id: "+id+" to user: "+username+" list of rented cars";
-    //         }
-    //     }
-    //     return "Error";
-    // }
+     public String rentCarUser( int id, String username) {
+        System.out.println("got request with id: "+id+" and username: "+username);
+         for (User user: Users) {
+             System.out.println("Scanning users");
+             if (Objects.equals(user.getUsername(), username)) {
+                 user.addCarsRented(String.valueOf(id));
+                 return "Added car with id: "+id+" to user: "+username+" list of rented cars";
+             }
+         }
+         return "Error";
+     }
 }

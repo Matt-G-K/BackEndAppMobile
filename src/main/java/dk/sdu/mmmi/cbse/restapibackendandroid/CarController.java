@@ -21,71 +21,46 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @CrossOrigin(origins = "*")
 public class CarController {
 
+    private final String ip = "192.168.1.96";
+
+    private final UserController userController;
+
+    public CarController(UserController userController) {
+        this.userController = userController;
+    }
+
     private List<Car> Cars = Arrays.asList(
             new Car("1",
-                    "Car1",
+                    "1-series",
                     "BMW",
                     "Copenhagen",
-                    "1000",
+                    30.00,
                     "01-01-2025",
-                    "http://localhost:8080/images/car1.png",
-                    "Available"),
+                    "http://"+ip+":8080/images/BMW 1-series.png",
+                    "Available",
+                    800,
+                    3),
             new Car("2",
-                    "Car2",
-                    "Ferrari",
+                    "Corsa",
+                    "Opel",
                     "Odense",
-                    "1500",
+                    35.00,
                     "01-02-2025",
-                    "http://localhost:8080/images/car2.png",
-                    "Rented"),
+                    "http://"+ip+":8080/images/opel corsa.png",
+                    "Available",
+                    400,
+                    2),
             new Car("3",
-                    "Car3",
-                    "Volkswagen",
-                    "Aarhus",
-                    "800",
-                    "03-01-2025",
-                    "http://localhost:8080/images/car3.png",
-                    "Available"),
-            new Car("4",
-                    "Car4",
-                    "Citroen",
+                    "Picanto",
+                    "Kia",
                     "Nyborg",
-                    "1000",
+                    25.00,
                     "01-01-2025",
-                    "http://localhost:8080/images/car1.png",
-                    "Available"),
-            new Car("5",
-                    "Car5",
-                    "BMW",
-                    "Odense",
-                    "1100",
-                    "07-04-2025",
-                    "http://localhost:8080/images/car2.png",
-                    "Available"),
-            new Car("6",
-                    "Car6",
-                    "Renault",
-                    "Copenhagen",
-                    "1200",
-                    "01-06-2025",
-                    "http://localhost:8080/images/car3.png",
-                    "Available"),
-            new Car("7",
-                    "Car7",
-                    "BMW",
-                    "Copenhagen",
-                    "1000",
-                    "01-01-2025",
-                    "http://localhost:8080/images/car1.png",
-                    "Available"),
-            new Car("8",
-                    "Car8",
-                    "BMW",
-                    "Copenhagen",
-                    "1000",
-                    "01-01-2025",
-                    "http://localhost:8080/images/car2.png",
-                    "Available"));
+                    "http://"+ip+":8080/images/kia picanto.png",
+                    "Available",
+                    1500,
+                    10));
+
 
     @GetMapping("/api/cars")
     public List<Car> getCars() {
@@ -141,7 +116,7 @@ public class CarController {
             return "Car with id: " + id + " not found";
         if (!"Available".equals(car.getStatus()) || getActive(String.valueOf(id)) != null)
             return "Car with id: " + id + " is not available";
-        RentalModel rental = new RentalModel(String.valueOf(id), null, nowUTC(), null, car.getImage(), car.getName(), car.getModel());
+        RentalModel rental = new RentalModel(String.valueOf(id), null, nowUTC(), null, car.getImage(), car.getName(), car.getModel(), car.getTotalPrice(), car.getDays());
         rentalsByCar.computeIfAbsent(String.valueOf(id), k -> new CopyOnWriteArrayList<>())
             .add(rental);
         car.setStatus("Rented");
@@ -187,7 +162,7 @@ public class CarController {
             return "Car with id: " + id + " not found";
         if (!"Available".equals(car.getStatus()) || getActive(String.valueOf(id)) != null)
             return "Car with id: " + id + " is not available";
-        RentalModel rental = new RentalModel(String.valueOf(id), username, nowUTC(), null, car.getImage(), car.getName(), car.getModel());
+        RentalModel rental = new RentalModel(String.valueOf(id), username, nowUTC(), null, car.getImage(), car.getName(), car.getModel(),car.getTotalPrice(),car.getDays());
         
             rentalsByCar.computeIfAbsent(String.valueOf(id), k -> new CopyOnWriteArrayList<>())
                 .add(rental);
