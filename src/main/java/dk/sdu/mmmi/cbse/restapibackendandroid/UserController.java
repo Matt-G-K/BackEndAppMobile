@@ -136,5 +136,71 @@ public class UserController {
         return "Error";
     }
 
+    @GetMapping("/api/user/{username}")
+    public User getUserByUsername(@PathVariable String username) {
+        for (User user: Users.getUsers()) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @PutMapping("/api/user/addcard/{username}/{id}/{cardnumber}/{expirydate}")
+    public String addCard(@PathVariable String username, @PathVariable Integer id, @PathVariable Integer cardnumber, @PathVariable Integer expirydate) {
+        for (User user: Users.getUsers()) {
+            if (user.getUsername().equals(username)) {
+                Card newcard = new Card(id, cardnumber, expirydate);
+                user.addCard(newcard);
+                return "Succesfully added card: "+newcard.toString()+" to user: "+user.toString();
+            }
+        }
+        return null;
+    }
+
+    @PutMapping("/api/user/removecard/{username}/{id}")
+    public String removeCard(@PathVariable String username, @PathVariable Integer id) {
+        for (User user: Users.getUsers()) {
+            if (user.getUsername().equals(username)) {
+                for (Card card: user.getCards()) {
+                    if (card.getId().equals(id)) {
+                        user.removeCard(id);
+                        return "Succesfully removed card: "+card.toString()+" from user: "+user.toString();
+                    }
+                }
+                return "Could not find card with id: "+id+" in users card list.";
+            }
+        }
+        return null;
+    }
+
+    @PutMapping("/api/user/addaccount/{username}/{id}/{accountname}/{regnum}/{accountnumber}")
+    public String addAccount(@PathVariable String username, @PathVariable Integer id,
+                             @PathVariable String accountname, @PathVariable Integer regnum, @PathVariable Integer accountnumber) {
+        for (User user: Users.getUsers()) {
+            if (user.getUsername().equals(username)) {
+                Account newaccount = new Account(id, accountname, regnum, accountnumber);
+                user.addAccount(newaccount);
+                return "Succesfully added account: "+newaccount.toString()+" to user: "+user.toString();
+            }
+        }
+        return null;
+    }
+
+    @PutMapping("/api/user/removeaccount/{username}/{id}")
+    public String removeAccount(@PathVariable String username, @PathVariable Integer id) {
+        for (User user: Users.getUsers()) {
+            if (user.getUsername().equals(username)) {
+                for (Account account: user.getAccounts()) {
+                    if (account.getId().equals(id)) {
+                        user.removeAccount(id);
+                        return "Succesfully removed account: "+account.toString()+" from user: "+user.toString();
+                    }
+                }
+                return "Could not find account with id: "+id+" in users card list.";
+            }
+        }
+        return null;
+    }
 }
 

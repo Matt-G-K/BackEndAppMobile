@@ -9,6 +9,8 @@ public class User {
     private String password;
     private ArrayList<Integer> groupsMember;
     private ArrayList<Integer> transactionsMember;
+    private ArrayList<Card> cards;
+    private ArrayList<Account> accounts;
 
     public User(String username, String email, String password, ArrayList<Integer> groupsMember, ArrayList<Integer> transactionsMember){
         this.userId = null;
@@ -73,5 +75,29 @@ public class User {
 
     public void removeTransactionMember(int id) {
         transactionsMember.remove(id);
+    }
+
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
+    public void addCard(Card card) {
+        cards.add(card);
+    }
+
+    public void removeCard(Integer id) {
+        cards.removeIf(card -> card.getId().equals(id));
+    }
+
+    public ArrayList<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
+
+    public void removeAccount(Integer id) {
+        accounts.removeIf(account -> account.getId().equals(id));
     }
 }
