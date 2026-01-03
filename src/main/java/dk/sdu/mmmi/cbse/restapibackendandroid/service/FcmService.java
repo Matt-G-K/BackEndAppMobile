@@ -2,8 +2,7 @@ package dk.sdu.mmmi.cbse.restapibackendandroid.service;
 
 import org.springframework.stereotype.Service;
 
-
-
+import com.google.api.services.storage.model.Notification;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 
@@ -31,7 +30,7 @@ public class FcmService {
                 .build();
 
         try {
-            if (notificationSettingService.isNotificationEnabled(userId, type)) {
+            if (notificationSettingService.isNotificationEnabled(userId, NotificationType.GENERAL_NOTIFICATION) && notificationSettingService.isNotificationEnabled(userId, type)) {
                 FirebaseMessaging.getInstance().send(message);
                 System.out.println("FCM notification sent!");
             }else {
