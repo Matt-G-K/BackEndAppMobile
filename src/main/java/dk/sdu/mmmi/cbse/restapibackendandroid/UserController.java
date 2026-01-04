@@ -242,7 +242,7 @@ public class UserController {
                 System.out.println("Not this user: "+user.getUsername());
             }
         }
-        return "Error";
+        return 0;
     }
 
     @PutMapping("api/user/setimage/{username}/{phonenumber}")
