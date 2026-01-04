@@ -48,7 +48,7 @@ public class UserController {
         System.out.println("Creating user");
         ArrayList<Integer> emptyHistory = new ArrayList<>();
         String profileImage = "http://"+ip+":8080/images/profile1.png";
-        User newUser = new User(username, email, password, emptyHistory, emptyHistory, profileImage);
+        User newUser = new User(username, email, password, emptyHistory, emptyHistory, profileImage, 0);
         Users.addUser(newUser);
         return "Added user with username: "+username;
     }
@@ -226,7 +226,34 @@ public class UserController {
                 user.setProfileImage("http://"+ip+":8080/images/profile"+image+".png");
                 return "Succesfully changed image to: "+image+" for user: "+username;
             } else {
-                System.out.println("Not this group: "+user.getUsername());
+                System.out.println("Not this user: "+user.getUsername());
+            }
+        }
+        return "Error";
+    }
+
+    @GetMapping("/api/user/getimage/{username}")
+    public int getPhoneNumber(@PathVariable String username) {
+        System.out.println("Fetching profile image for user: "+username);
+        for(User user: Users.getUsers()) {
+            if(user.getUsername().equals(username)) {
+                return user.getPhoneNumber();
+            } else {
+                System.out.println("Not this user: "+user.getUsername());
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("api/user/setimage/{username}/{phonenumber}")
+    public String setPhoneNumber(@PathVariable String username, @PathVariable int phonenumber) {
+        System.out.println("Changing phonenumber for user: "+username+" to:"+phonenumber);
+        for(User user: Users.getUsers()) {
+            if(user.getUsername().equals(username)) {
+                user.setPhoneNumber(phonenumber);
+                return "Succesfully changed phonenumber to: "+phonenumber+" for user: "+username;
+            } else {
+                System.out.println("Not this user: "+user.getUsername());
             }
         }
         return "Error";

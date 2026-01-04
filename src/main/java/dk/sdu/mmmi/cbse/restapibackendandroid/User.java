@@ -12,8 +12,9 @@ public class User {
     private ArrayList<Card> cards;
     private ArrayList<Account> accounts;
     private String profileImage;
+    private int phoneNumber;
 
-    public User(String username, String email, String password, ArrayList<Integer> groupsMember, ArrayList<Integer> transactionsMember, String profileImage){
+    public User(String username, String email, String password, ArrayList<Integer> groupsMember, ArrayList<Integer> transactionsMember, String profileImage, int phoneNumber){
         this.userId = null;
         this.username = username;
         this.email = email;
@@ -21,6 +22,7 @@ public class User {
         this.groupsMember = groupsMember;
         this.transactionsMember = transactionsMember;
         this.profileImage = profileImage;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUserId() {
@@ -109,5 +111,13 @@ public class User {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
