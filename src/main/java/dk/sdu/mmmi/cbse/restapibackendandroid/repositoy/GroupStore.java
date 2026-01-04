@@ -13,11 +13,12 @@ public class GroupStore {
 
     private ArrayList<Integer> emptyArray = new ArrayList<>();
     private ArrayList<String> emptyArrayString = new ArrayList<>();
+    private final String ip = "10.0.2.2";
 
     private List<Group> Groups = new ArrayList<>(Arrays.asList(
-            new Group(1, "Event1", emptyArrayString, emptyArray, "01-01-2020"),
-            new Group(2, "Event2", emptyArrayString, emptyArray, "02-01-2020"),
-            new Group(3, "Event3", emptyArrayString, emptyArray, "03-01-2020")
+            new Group(1, "Event1", emptyArrayString, emptyArray, "01-01-2020", "http://"+ip+":8080/images/group1.png"),
+            new Group(2, "Event2", emptyArrayString, emptyArray, "02-01-2020", "http://"+ip+":8080/images/group1.png"),
+            new Group(3, "Event3", emptyArrayString, emptyArray, "03-01-2020", "http://"+ip+":8080/images/group1.png")
     ));
 
     public List<Group> getGroups() {
