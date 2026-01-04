@@ -8,6 +8,7 @@ public enum NotificationType {
     TEST,
     GROUP_PING,
     TRANSACTION_CREATED,
-    ADDED_TO_TRANSACTION
+    ADDED_TO_TRANSACTION,
+    GENERAL_NOTIFICATION
 
 }
