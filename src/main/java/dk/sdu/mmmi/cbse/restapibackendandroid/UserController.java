@@ -19,7 +19,7 @@ public class UserController {
 
     private final NotificationService notificationService;
     private final NotificationSettingService notificationSettingService;
-    private final String ip = "192.168.1.96";
+    private final String ip = "10.0.2.2";
 
     public UserController(GroupController groupController, NotificationService notificationService, NotificationSettingService notificationSettingService, UserStore Users) {
         this.groupController = groupController;

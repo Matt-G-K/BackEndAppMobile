@@ -14,7 +14,7 @@ public class GroupController {
 
     private final NotificationService notificationService;
     private final GroupStore Groups;
-    private final String ip = "192.168.1.96";
+    private final String ip = "10.0.2.2";
     
 
     public GroupController(NotificationService notificationService, GroupStore Groups) {
