@@ -232,9 +232,9 @@ public class UserController {
         return "Error";
     }
 
-    @GetMapping("/api/user/getimage/{username}")
+    @GetMapping("/api/user/getphonenumber/{username}")
     public int getPhoneNumber(@PathVariable String username) {
-        System.out.println("Fetching profile image for user: "+username);
+        System.out.println("Fetching phonenumber for user: "+username);
         for(User user: Users.getUsers()) {
             if(user.getUsername().equals(username)) {
                 return user.getPhoneNumber();
@@ -245,7 +245,7 @@ public class UserController {
         return 0;
     }
 
-    @PutMapping("api/user/setimage/{username}/{phonenumber}")
+    @PutMapping("api/user/setphonenumber/{username}/{phonenumber}")
     public String setPhoneNumber(@PathVariable String username, @PathVariable int phonenumber) {
         System.out.println("Changing phonenumber for user: "+username+" to:"+phonenumber);
         for(User user: Users.getUsers()) {
