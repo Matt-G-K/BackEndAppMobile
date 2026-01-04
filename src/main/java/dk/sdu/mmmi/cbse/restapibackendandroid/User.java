@@ -11,14 +11,16 @@ public class User {
     private ArrayList<Integer> transactionsMember;
     private ArrayList<Card> cards;
     private ArrayList<Account> accounts;
+    private String profileImage;
 
-    public User(String username, String email, String password, ArrayList<Integer> groupsMember, ArrayList<Integer> transactionsMember){
+    public User(String username, String email, String password, ArrayList<Integer> groupsMember, ArrayList<Integer> transactionsMember, String profileImage){
         this.userId = null;
         this.username = username;
         this.email = email;
         this.password = password;
         this.groupsMember = groupsMember;
         this.transactionsMember = transactionsMember;
+        this.profileImage = profileImage;
     }
 
     public String getUserId() {
@@ -99,5 +101,13 @@ public class User {
 
     public void removeAccount(Integer id) {
         accounts.removeIf(account -> account.getId().equals(id));
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

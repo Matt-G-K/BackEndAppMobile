@@ -19,6 +19,7 @@ public class UserController {
 
     private final NotificationService notificationService;
     private final NotificationSettingService notificationSettingService;
+    private final String ip = "192.168.1.96";
 
     public UserController(GroupController groupController, NotificationService notificationService, NotificationSettingService notificationSettingService, UserStore Users) {
         this.groupController = groupController;
@@ -46,7 +47,8 @@ public class UserController {
     public String createUser(@PathVariable String username, @PathVariable String email, @PathVariable String password) {
         System.out.println("Creating user");
         ArrayList<Integer> emptyHistory = new ArrayList<>();
-        User newUser = new User(username, email, password, emptyHistory, emptyHistory);
+        String profileImage = "http://"+ip+":8080/images/profile1.png";
+        User newUser = new User(username, email, password, emptyHistory, emptyHistory, profileImage);
         Users.addUser(newUser);
         return "Added user with username: "+username;
     }
@@ -201,6 +203,33 @@ public class UserController {
             }
         }
         return null;
+    }
+
+    @GetMapping("/api/user/getimage/{username}")
+    public String getProfileImage(@PathVariable String username) {
+        System.out.println("Fetching profile image for user: "+username);
+        for(User user: Users.getUsers()) {
+            if(user.getUsername().equals(username)) {
+                return user.getProfileImage();
+            } else {
+                System.out.println("Not this user: "+user.getUsername());
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("api/user/setimage/{username}/{image}")
+    public String setProfileImage(@PathVariable String username, @PathVariable int image) {
+        System.out.println("Changing image for user: "+username+" to:"+image);
+        for(User user: Users.getUsers()) {
+            if(user.getUsername().equals(username)) {
+                user.setProfileImage("http://"+ip+":8080/images/profile"+image+".png");
+                return "Succesfully changed image to: "+image+" for user: "+username;
+            } else {
+                System.out.println("Not this group: "+user.getUsername());
+            }
+        }
+        return "Error";
     }
 }
 

@@ -14,7 +14,7 @@ public class GroupController {
 
     private final NotificationService notificationService;
     private final GroupStore Groups;
-    
+    private final String ip = "192.168.1.96";
     
 
     public GroupController(NotificationService notificationService, GroupStore Groups) {
@@ -78,7 +78,8 @@ public class GroupController {
         System.out.println("Trying to create group with name: "+name);
         int ID = Groups.getLast().getId()+1;
         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-        Group newGroup = new Group(ID, name, new ArrayList<>(), new ArrayList<>(), date);
+        String groupImage = "http://"+ip+":8080/images/group1.png";
+        Group newGroup = new Group(ID, name, new ArrayList<>(), new ArrayList<>(), date, groupImage);
         Groups.addGroup(newGroup);
         return "Group created with id: "+ID;
     }
@@ -160,5 +161,32 @@ public class GroupController {
             }
         }
         return null;
+    }
+
+    @GetMapping("/api/group/getimage/{id}")
+    public String getGroupImage(@PathVariable int id) {
+        System.out.println("Fetching group image for group: "+id);
+        for(Group group: Groups.getGroups()) {
+            if(group.getId().equals(id)) {
+                return group.getGroupImage();
+            } else {
+                System.out.println("Not this group: "+group.getId());
+            }
+        }
+        return "Error";
+    }
+
+    @PutMapping("api/group/setimage/{id}/{image}")
+    public String setGroupImage(@PathVariable int id, @PathVariable int image) {
+        System.out.println("Changing image for group with id: "+id+" to:"+image);
+        for(Group group: Groups.getGroups()) {
+            if(group.getId().equals(id)) {
+                group.setGroupImage("http://"+ip+":8080/images/group"+image+".png");
+                return "Succesfully changed image to: "+image+" for group: "+id;
+            } else {
+                System.out.println("Not this group: "+group.getId());
+            }
+        }
+        return "Error";
     }
 }
