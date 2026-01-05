@@ -90,16 +90,17 @@ public class GroupController {
     }
 
     @GetMapping("/api/group/{id}")
-    public String getGroup(@PathVariable int id) {
+    public Group getGroup(@PathVariable int id) {
         System.out.println("Fetching group with name: "+id);
         for(Group group: Groups.getGroups()) {
-            if(group.getId().equals(id)) {
-                return group.toString();
+            if(group.getId() == id) {
+                System.out.println("This group: "+group.getId());
+                return group;
             } else {
                 System.out.println("Not this group: "+group.getId());
             }
         }
-        return "Error";
+        return null;
 
     }
 
