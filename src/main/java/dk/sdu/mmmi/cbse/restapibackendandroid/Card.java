@@ -1,30 +1,32 @@
 package dk.sdu.mmmi.cbse.restapibackendandroid;
 
+import java.util.UUID;
+
 public class Card {
 
-    private Integer id;
-    private Integer cardNumber;
+    private String id;
+    private String cardNumber;
     private Integer expiryDate;
 
-    public Card(Integer id, Integer cardNumber, Integer expiryDate) {
-        this.id = id;
+    public Card( String cardNumber, Integer expiryDate) {
+        this.id = UUID.randomUUID().toString();
         this.cardNumber = cardNumber;
         this.expiryDate = expiryDate;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(Integer cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 

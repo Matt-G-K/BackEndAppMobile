@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import dk.sdu.mmmi.cbse.restapibackendandroid.repositoy.GroupStore;
+import dk.sdu.mmmi.cbse.restapibackendandroid.repositoy.UserStore;
 import dk.sdu.mmmi.cbse.restapibackendandroid.service.NotificationService;
 
 @RestController
@@ -14,21 +15,25 @@ public class GroupController {
 
     private final NotificationService notificationService;
     private final GroupStore Groups;
+    private final UserStore users;
     private final String ip = "10.0.2.2";
     
 
-    public GroupController(NotificationService notificationService, GroupStore Groups) {
+    public GroupController(NotificationService notificationService, GroupStore Groups, UserStore users) {
         this.notificationService = notificationService;;
         this.Groups = Groups;
+        this.users = users;
     }
 
     @GetMapping("/api/groups")
     public List<Group> getGroups() {
+        System.out.println("Fetching all groups");
         return Groups.getGroups();
     }
 
     @GetMapping("/api/groups/member/{id}")
     public List<Group> getGroupsForMember(@PathVariable String id) {
+        System.out.println("Fetching groups for member with id: "+id);
         List<Group> memberGroups = new ArrayList<Group>();
         for (Group group : Groups.getGroups()) {
              ArrayList<String> memberIDs = group.getMemberIDs();
@@ -39,16 +44,16 @@ public class GroupController {
         return memberGroups;
     }
 
-    @PutMapping("/api/addmember/{id}/{groupID}")
-    public String addMember(@PathVariable String id, @PathVariable int groupID) {
-        System.out.println("got member add request with id: "+id+" and groupID: "+groupID);
+    @PutMapping("/api/addmember/{username}/{groupID}")
+    public String addMember(@PathVariable String username, @PathVariable int groupID) {
+        System.out.println("got member add request with username: "+username+" and groupID: "+groupID);
         for(Group group: Groups.getGroups()) {
-            if(group.getId().equals(groupID) && !group.getMemberIDs().contains(id)) {
-                group.addMemberID(id);
-                return "Member "+id+" added to group "+groupID;
-            } else if (group.getId().equals(groupID) && group.getMemberIDs().contains(id)) {
-                System.out.println("Member "+id+" already in group "+groupID);
-                return "Member "+id+" already in group "+groupID;
+            if(group.getId().equals(groupID) && !group.getMemberIDs().contains(username)) {
+                group.addMemberID(users.getUserByUsername(username).getUserId());
+                return "Member "+username+" added to group "+groupID;
+            } else if (group.getId().equals(groupID) && group.getMemberIDs().contains(username)) {
+                System.out.println("Member "+username+" already in group "+groupID);
+                return "Member "+username+" already in group "+groupID;
             } else {
                 System.out.println("Not this group: "+group.getId());
             }
@@ -73,7 +78,7 @@ public class GroupController {
         return "Error";
     }
 
-    @PostMapping("api/creategroup/{name}")
+    @PostMapping("/api/creategroup/{name}")
     public String createGroup(@PathVariable String name) {
         System.out.println("Trying to create group with name: "+name);
         int ID = Groups.getLast().getId()+1;

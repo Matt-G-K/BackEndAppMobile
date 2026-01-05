@@ -48,7 +48,7 @@ public class UserController {
         System.out.println("Creating user");
         ArrayList<Integer> emptyHistory = new ArrayList<>();
         String profileImage = "http://"+ip+":8080/images/profile1.png";
-        User newUser = new User(username, email, password, emptyHistory, emptyHistory, profileImage, 0);
+        User newUser = new User(username, email, password, emptyHistory, emptyHistory, profileImage, 0, null);
         Users.addUser(newUser);
         return "Added user with username: "+username;
     }
@@ -148,17 +148,28 @@ public class UserController {
         return null;
     }
 
-    @PutMapping("/api/user/addcard/{username}/{id}/{cardnumber}/{expirydate}")
-    public String addCard(@PathVariable String username, @PathVariable Integer id, @PathVariable Integer cardnumber, @PathVariable Integer expirydate) {
+    @PutMapping("/api/user/addcard/{username}/{cardnumber}/{expirydate}")
+    public String addCard(@PathVariable String username, @PathVariable String cardnumber, @PathVariable Integer expirydate) {
         for (User user: Users.getUsers()) {
             if (user.getUsername().equals(username)) {
-                Card newcard = new Card(id, cardnumber, expirydate);
+                Card newcard = new Card(cardnumber, expirydate);
                 user.addCard(newcard);
                 return "Succesfully added card: "+newcard.toString()+" to user: "+user.toString();
             }
         }
         return null;
     }
+
+    @GetMapping("/api/user/getcards/{username}")
+    public List<Card> getCards(@PathVariable String username) {
+        for (User user: Users.getUsers()) {
+            if (user.getUsername().equals(username)) {
+                return user.getCards();
+            }
+        }
+        return null;
+    }
+
 
     @PutMapping("/api/user/removecard/{username}/{id}")
     public String removeCard(@PathVariable String username, @PathVariable Integer id) {

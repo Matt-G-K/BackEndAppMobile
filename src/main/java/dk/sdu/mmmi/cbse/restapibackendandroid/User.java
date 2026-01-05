@@ -1,6 +1,7 @@
 package dk.sdu.mmmi.cbse.restapibackendandroid;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class User {
     private String userId;
@@ -14,8 +15,8 @@ public class User {
     private String profileImage;
     private int phoneNumber;
 
-    public User(String username, String email, String password, ArrayList<Integer> groupsMember, ArrayList<Integer> transactionsMember, String profileImage, int phoneNumber){
-        this.userId = null;
+    public User(String username, String email, String password, ArrayList<Integer> groupsMember, ArrayList<Integer> transactionsMember, String profileImage, int phoneNumber, ArrayList<Card> cards){
+        this.userId = UUID.randomUUID().toString();
         this.username = username;
         this.email = email;
         this.password = password;
@@ -23,6 +24,7 @@ public class User {
         this.transactionsMember = transactionsMember;
         this.profileImage = profileImage;
         this.phoneNumber = phoneNumber;
+        this.cards = new ArrayList<>();
     }
 
     public String getUserId() {
